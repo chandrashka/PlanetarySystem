@@ -10,15 +10,14 @@ namespace Planetary.Factory.System
 {
     public class PlanetarySystemFactory : IPlanetarySystemFactory
     {
-
         private readonly IPlanetaryObjectFactory _planetaryObjectFactory = new PlanetaryObjectFactory();
-        
+
         public IPlanetarySystem Create(double mass)
         {
             IPlanetarySystem threePlanetPlanetarySystem = GetPlanetarySystemComponent();
-            
+
             threePlanetPlanetarySystem.SetPlanets(CreatePlanets(mass));
-            
+
             return threePlanetPlanetarySystem;
         }
 
@@ -28,12 +27,12 @@ namespace Planetary.Factory.System
 
             var planets = new List<IPlanetaryObject>();
 
-            for (var planetNumber = 0; planetNumber < GameConstants.Factory.MaximumPlanetsCount; planetNumber++)
+            for (var planetNumber = 0; planetNumber < GameConstants.Factory.PlanetCoefficient.Length; planetNumber++)
                 planets.Add(_planetaryObjectFactory.CreatePlanet(GetMass(multiplyCoefficient, planetNumber)));
 
             return planets;
         }
-        
+
         private static PlanetarySystem GetPlanetarySystemComponent()
         {
             return UnityEngine.Object.FindObjectOfType<GameManager.GameManager>().AddComponent<PlanetarySystem>();

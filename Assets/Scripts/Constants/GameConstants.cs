@@ -4,12 +4,14 @@ namespace Constants
     {
         public static class Factory
         {
-            public const int MaximumPlanetsCount = 3;
-            public static readonly int[] PlanetCoefficient = {5, 2, 1};
+            public static readonly int[] PlanetCoefficient = { 5, 2, 1};
         }
 
-    public static class Planetary
+        public static class Planetary
         {
+            public const float ExtraSpaceBetweenPlanets = 10f;
+            public const int MaximumDegreesPerSecond = 180;
+
             public const float MinMassAsteroidan = 0f;
             public const float MaxMassAsteroidan = 0.00001f;
 

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Constants;
 using Planetary.Object;
 using Service.Initializer;
+using Service.Random;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Planetary.System
 {
@@ -14,11 +15,9 @@ namespace Planetary.System
 
         private bool _isSystemCreated;
 
-        private readonly List<int> _degreesPerSecond = new();
+        private readonly List<int> _degreesPerSecondList = new();
 
         private readonly Vector3 _target = Vector3.zero;
-        
-        private readonly Random _random = new();
 
         private PlanetaryInitializer _planetaryInitializer;
 
@@ -30,22 +29,27 @@ namespace Planetary.System
         public void Update()
         {
             if (_isSystemCreated) return;
-            
+
             foreach (var planet in _planetary)
                 MovePlanet(planet, _planetary.IndexOf(planet));
         }
-        
+
         private void MovePlanet(GameObject planet, int indexOf)
         {
-            planet.transform.RotateAround(_target, Vector3.down, _degreesPerSecond[indexOf] * Time.deltaTime);
+            planet.transform.RotateAround(_target, Vector3.down,
+                _degreesPerSecondList[indexOf] * Time.deltaTime);
         }
-        
+
         public void SetPlanets(IEnumerable<IPlanetaryObject> planetaryObjects)
         {
             PlanetaryObjects = planetaryObjects;
-            foreach (var planetary in PlanetaryObjects) 
-                _planetaryInitializer.CreatePlanet(planetary, _random.Next(180), _degreesPerSecond, _planetary);
+            foreach (var planetary in PlanetaryObjects)
+            {
+                var degreePerSecond = 
+                    RandomExtensions.Random.Next(GameConstants.Planetary.MaximumDegreesPerSecond);
+                _degreesPerSecondList.Add(degreePerSecond);
+                _planetaryInitializer.CreatePlanet(planetary, _planetary);
+            }
         }
-
     }
 }

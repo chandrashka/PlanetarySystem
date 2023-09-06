@@ -1,3 +1,5 @@
+using Constants;
+using Service.Random;
 using UnityEngine;
 
 namespace Service.Controller
@@ -7,12 +9,9 @@ namespace Service.Controller
         [SerializeField] private Vector3 target;
         [SerializeField] private float degreesPerSecond;
 
-        private System.Random _random;
-
         private void Start()
         {
-            _random = new System.Random();
-            degreesPerSecond = _random.Next(180);
+            degreesPerSecond = RandomExtensions.Random.Next(GameConstants.Planetary.MaximumDegreesPerSecond);
         }
 
         private void Update()
